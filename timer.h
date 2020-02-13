@@ -6,6 +6,13 @@
 //The matrix version is POSIX
 #define PLATFORM POSIX
 
+#ifdef _WIN32 //Windows
+#define PLATFORM WINDOWS
+#elif __APPLE__ //Mac OS X
+#define PLATFORM POSIX
+#elif __unix__ //Linux
+#define PLATFORM POSIX
+#endif
 /*This class represents a timer.  A timer can be used to calculate the 
 time it took for a piece of code to be run.  It uses the actual time in 
 processing as opposed to the wall clock so that differences in load on a 
