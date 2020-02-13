@@ -3,48 +3,32 @@
 DisjointSet::DisjointSet(int max)
 {
 	//this->nodes = new LinkedList<int>::Node * [max]{nullptr}; //initialize to nullptr(0) - warning in matrix
-	this->nodes = new LinkedList<int>::Node * [max]; 
+	this->nodes = new Node * [max];
 	for (size_t i = 0; i < max; i++)
 	{
 		nodes[i] = nullptr;
 	}
 	this->max = max;
-	lists = new LinkedList<LinkedList<int>*>;
+	//lists = new LinkedList<LinkedList<int>*>;
 }
 
 bool DisjointSet::makeSet(int object) //O(1)
 {
 	if (object < 0 || object >= max || nodes[object]) return false;
-	auto list = new LinkedList<int>();
-	nodes[object] = list->push_back(object);
-	lists->push_back(list);
+	auto n = new Node();
+	n->first = n;
+	n->last = n;
+	n->next = nullptr;
+	n->referedCount = 1;
+	n->value = object;
+	nodes[object] = n;
 	return true;
 }
 
-int DisjointSet::findSet(int object) const{ //O(1)
-	//if (lists->isEmpty()) return -1;
-	//for (auto& list : *lists) {
-	//	for (auto& e : list) {
-	//		if (e == object)
-	//		{
-	//			return *list.begin();
-	//		}
-	//	}
-	//}
-	/*
-	for (size_t i = 0; i < size; i++)
+int DisjointSet::findSet(int object) const { //O(1)	
+	if (nodes[object]) // if (nodes[object]), the obj already in the list;
 	{
-		if (nodes[i]->data_ == object)
-		{
-			return *(nodes[i]->list_->begin());
-		}
-	}
-	*/
-	
-	if (nodes[object]) // if nodes[object - 1] exsits, the obj already in the list;
-	{
-		//return *(*(nodes[object]->list_)->begin());
-		return *((*(nodes[object]->list_)).begin());
+		return nodes[object]->first->value;
 	}
 	return -1;
 }
@@ -54,75 +38,72 @@ bool DisjointSet::unionSets(int obj1, int obj2)	//O(minimumof(obj2.list.size, ob
 {
 	if (obj1 < 0 || obj1 >= max || obj2 < 0 || obj2 >= max) return false;
 	if (obj1 == obj2) return true;
-	if (!(nodes[obj1] && nodes[obj2])) return false;
-	auto set1 = findSet(obj1);
-	auto set2 = findSet(obj2);
-	if (set1 != -1 && set1 == set2) return true;
-	LinkedList<int>* list1 = nullptr;
-	LinkedList<int>* list2 = nullptr;
-	/*for (auto i = lists->begin(); i != lists->end(); i++)
+	if (!(nodes[obj1] && nodes[obj2])) return false; //if obj1 or obj2 not in the set
+	auto n1 = nodes[obj1]->first;
+	auto n2 = nodes[obj2]->first;
+	if (n1 == n2) return true;
+	if (n1->referedCount < n2->referedCount) //if list of n2 lager, link list of n1 to list of n2
 	{
-		if (*(*i).begin() == set1)
-		{
-			if (list2)
-			{
-				break;
-			}
-			list1 = i.getNode();
-		}
-		if (*(*i).begin() == set2)
-		{
-			list2 = i.getNode();
-			if (list1)
-			{
-				break;
-			}
-		}
-	}*/
-	list1 = nodes[obj1]->list_;
-	list2 = nodes[obj2]->list_;
-	//O(min(obj2.list.size, obj1.list.size)) - this should be linear.
-	if (list1->size() > list2->size())
-	{
-		*list1 += *list2;  
-		list2->clearListWithOutFreeMemory(); //the list still on the heap. we free it later.
+		auto n = n1;
+		n1 = n2;
+		n2 = n;
 	}
-	else {
-		*list2 += *list1;
-		list1->clearListWithOutFreeMemory();
+	n1->last->next = n2;
+	n1->last = n2->last;
+	auto n = n2;
+	while (n) {
+		auto nn = n->next;
+		n->first = n1;
+		n->referedCount = 0;
+		n1->referedCount++;
+		n = nn;
 	}
-
-	if (!(list1 && list2)) return false;
 	return true;
 }
 
-DisjointSet::~DisjointSet()//O(nodes.size + lists.size)
+DisjointSet::~DisjointSet()//O(max)
 {
-	if (lists) {
-		for (auto& n : *lists) {
-			delete n;
+	if (this->nodes) {
+		for (size_t i = 0; i < max; i++)
+		{
+			if (nodes[i])
+			{
+				delete nodes[i];
+			}
+
 		}
-		delete lists;
+		delete[] this->nodes;
 	}
-	delete[] nodes;
 }
 
-DisjointSet::DisjointSet(const DisjointSet& other) //deep copy, O(nodes.size + lists.size)
+DisjointSet::DisjointSet(const DisjointSet& other) //deep copy, O(max)
 {
 	*this = DisjointSet(other.max);
-	for (auto& list : *(other.lists)) {
-		auto nlist = new LinkedList<int>(); //create data list;
-		for (auto& d : *list) {
-		 	nodes[d] = nlist->push_back(d); //add data
+	for (size_t i = 0; i < max; i++)
+	{
+		if (other.nodes[i])
+		{
+			this->nodes[i] = new Node(
+				other.nodes[i]->value,
+				other.nodes[i]->next,
+				other.nodes[i]->first,
+				other.nodes[i]->last,
+				other.nodes[i]->referedCount
+				);
 		}
-		lists->push_back(nlist); //push linkedlist
 	}
 }
 
 DisjointSet& DisjointSet::operator=(const DisjointSet& other) //deep copy same to copy constructor
 {
+	for (size_t i = 0; i < max; i++)
+	{
+		if (nodes[i])
+		{
+			delete nodes[i];
+		}
+	}
 	this->max = other.max;
-	delete lists;
 	*this = DisjointSet(other);
 	return *this;
 }
@@ -130,9 +111,7 @@ DisjointSet& DisjointSet::operator=(const DisjointSet& other) //deep copy same t
 DisjointSet::DisjointSet(DisjointSet&& other) //move O(1)
 {
 	this->max = other.max;
-	this->lists = other.lists;
 	this->nodes = other.nodes;
-	other.lists = nullptr;	
 	other.nodes = nullptr;
 }
 
@@ -140,19 +119,7 @@ DisjointSet& DisjointSet::operator=(DisjointSet&& other) //move O(1)
 {
 	this->nodes = other.nodes;
 	this->max = other.max;
-	this->lists = other.lists;
-	other.lists = nullptr;		
 	other.nodes = nullptr;
 	return *this;
 }
 
-void DisjointSet::printSet() const //debugging only
-{
-	for (auto& list : *lists) {
-		std::cout << "{";
-		for (auto& e : *list) {
-			std::cout << e << " ";
-		}
-		std::cout << "}" << std::endl;
-	}
-}
