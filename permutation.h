@@ -1,5 +1,5 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef PERMUTATION_H
+#define PERMUTATION_H
 #include<cstdlib>
 
 class Permutation
