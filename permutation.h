@@ -20,9 +20,11 @@ Permutation::Permutation(int n) {
 	max = n;
 	bound = new int(n);
 	array = new int[n];
-	for (int i = 0; i < max; ++i) {
-		array[i] = i;
+	for (int i = 0; i < max; i++) {
+		array[i] = i+1;
 	}
+	//test
+//	std::cout << *bound << array[max-1] << std::endl;
 }
 
 Permutation::~Permutation() {
@@ -40,12 +42,13 @@ int Permutation::next() {
 		array[index] = array[*bound];
 	//	std::cout << "result: " << result << "\t";
 		return result;
+
 	}
 	else {
 		return array[0];
+	//	std::cout << "test *bound = 1" <<array[0];
 	}
-
-	
+		
 }
 
 void Permutation::reset() {
@@ -55,5 +58,5 @@ void Permutation::reset() {
 
 	*bound = max;
 }
-
+ 
 #endif
