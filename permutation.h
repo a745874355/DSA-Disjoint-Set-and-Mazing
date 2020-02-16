@@ -24,7 +24,7 @@ Permutation::Permutation(int n) {
 		array[i] = i+1;
 	}
 	//test
-//	std::cout << *bound << array[max-1] << std::endl;
+ 
 }
 
 Permutation::~Permutation() {
