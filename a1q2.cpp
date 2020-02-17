@@ -70,7 +70,9 @@ int generateMaze(int row, int col, Wall walls[]) {
 				walls_num--;
 			}
 			else {				 		 
-				walls[index++].set(room[0], room[1]);
+			//	walls[index++].set(room[0], room[1]);
+                                walls[index].set(room[0], room[1]);
+                                if(index < walls_num) index++;
 			}
 
 		};
