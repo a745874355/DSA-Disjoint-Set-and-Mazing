@@ -66,12 +66,13 @@ int generateMaze(int row, int col, Wall walls[]) {
 			//   take the union of the two sets.
 			if (rooms.findSet(room[0]) != rooms.findSet(room[1])) {				 
 				rooms.unionSets(room[0], room[1]);
+				disjoint_sets_num--;
+				walls_num--;
 			}
 			else {				 		 
 				walls[index++].set(room[0], room[1]);
 			}
-			disjoint_sets_num--;
-			walls_num--;
+
 		};
 		//check the all the rest walls, store the adjacent rooms numbers at the end of walls array
 		while (index < walls_num) {
