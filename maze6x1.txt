@@ -1,0 +1,1 @@
+{ "maxRow": 6,"maxCol": 1,"walls": [[70, 100]]}
