@@ -130,6 +130,7 @@ public:
 		delete [] sets_;
 	}
 };
+
 void getAdjacentCells(int maxRow,int maxCol,Wall walls[],int numWalls,
 							int** adjacent,int* numAdjacent,int numCells){
 	int j=0;
@@ -176,6 +177,7 @@ void getAdjacentCells(int maxRow,int maxCol,Wall walls[],int numWalls,
 		}
 	}
 }
+ 
 bool checkWalls(int maxRow,int maxCol,Wall walls[],int numWalls){
 	int numCells=maxRow*maxCol;
 	MyDisjointSet checkConnected(numCells);
@@ -254,6 +256,7 @@ bool test2(std::string& error){
 
 /*test3: create 100 items, merge together into pairs, check
   that their representatives are consistent*/
+
 bool test3(std::string& error){
 	int rc=true;
 	Wall walls1[50000];
@@ -286,6 +289,7 @@ bool test3(std::string& error){
 	}
 	return rc;
 }
+ 
 bool test4(std::string& error){
 	Wall walls[50000];
 
@@ -304,4 +308,5 @@ bool test4(std::string& error){
 	}
 	return true;
 }
+
 
