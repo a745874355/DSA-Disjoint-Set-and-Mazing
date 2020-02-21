@@ -12,8 +12,8 @@ public:
 		cells_[0]=cells_[1]=-1;
 	}
 	void set(int c1,int c2){
-		cells_[0]=c1;
-		cells_[1]=c2;
+		this->cells_[0]=c1;
+		this->cells_[1]=c2;
 	}
 	int cell1() const{return cells_[0];}
 	int cell2() const{return cells_[1];}

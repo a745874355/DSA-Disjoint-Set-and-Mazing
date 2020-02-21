@@ -122,4 +122,3 @@ DisjointSet& DisjointSet::operator=(DisjointSet&& other) //move O(1)
 	other.nodes = nullptr;
 	return *this;
 }
-
