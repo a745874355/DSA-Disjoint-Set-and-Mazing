@@ -10,11 +10,10 @@
             "args": [
                 // Ask msbuild to generate full paths for file names.
                 "-g",
-                "a1q2.cpp",
-                "a1q2tester.cpp",
+                "a1q3.cpp",
+                "a1q3tester.cpp",
                 "maze.cpp",
                 "timer.cpp",
-                "disjointset.cpp",
             ],
             "group": "build",
             "presentation": {

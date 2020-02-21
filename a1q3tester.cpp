@@ -33,7 +33,7 @@ bool checkPath(int path[],int pathLength, int correctPath[],int correctLength);
 void printPath(const std::string& fname, int path[],int pathLength,int rows, int cols);
 
 int main(void){
-    TestPtr runTest[numTests]={test1, test2, test3, test4, test5,
+    TestPtr runTest[numTests]={test4, test2, test3, test4, test5,
         test6, test7, test8, test9, test10};
     std::string msg;
     bool result=true;
