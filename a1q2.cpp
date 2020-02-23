@@ -64,7 +64,7 @@ int generateMaze(int row, int col, Wall walls[]) {
 				disjoint_sets_num--;
 				walls_num--;
 			}
-                        / 
+                        
 			else {
                 		walls[index].set(room[0], room[1]);
                 		//prevent segmentation fault
