@@ -20,7 +20,7 @@ void find_adjacent_rooms( int room[2], int wall, int col ) {
 		}
 		else {
 			// A horizontal wall
-            // adjust column number
+                        // adjust column number
 			column += 1 - col;
 			 
 			room[0] = col * row + column;
@@ -34,11 +34,11 @@ int generateMaze(int row, int col, Wall walls[]) {
 	//get cells number, walls number
 	int cells_num = row * col;
 	int walls_num = 2 * row * col - row - col;
-    int disjoint_sets_num = 0;
+        int disjoint_sets_num = 0;
 	int rc = 0;
 	int index = 0;
     
-    // only when both row and col > 1, maze exist
+        // only when both row and col > 1, maze exist
 	if (row > 1 && col > 1 ) {
 
 		//makeset for each cell
@@ -50,7 +50,7 @@ int generateMaze(int row, int col, Wall walls[]) {
 		Permutation untested_walls(walls_num);
  
 		//randamly find two adjacent rooms, if two rooms are not in same disjoint set, union them
-        //otherwise, store the wall between them to the next index of Wall array.
+                //otherwise, store the wall between them to the next index of Wall array.
 		while (disjoint_sets_num > 1 ){
 			//through wall, get two adjacent rooms number, store in room[0], room[1]
 			int wall = untested_walls.next();
@@ -58,16 +58,17 @@ int generateMaze(int row, int col, Wall walls[]) {
 			find_adjacent_rooms(room, wall, col);
 		 
 			// If the two rooms are not connected, take the union of the two room.
+			//otherwise, store the wall to the next index of Wall array
 			if (rooms.findSet(room[0]) != rooms.findSet(room[1])) {				 
 				rooms.unionSets(room[0], room[1]);
 				disjoint_sets_num--;
 				walls_num--;
 			}
-            //otherwise, store the wall to the next index of Wall array
+                        / 
 			else {
-                walls[index].set(room[0], room[1]);
-                //prevent segmentation fault
-                if(index < walls_num) index++;
+                		walls[index].set(room[0], room[1]);
+                		//prevent segmentation fault
+                		if(index < walls_num) index++;
 			}
 
 		};
