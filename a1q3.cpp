@@ -15,7 +15,7 @@ int runMaze(Maze& theMaze, int path[], int startCell, int endCell){
         path[0] = startCell;
         return 1;
     }else{
-        // A*
+        // A* 
         // cell identifies, X is current:
         // 0 1 2
         // 3 X 4
@@ -107,8 +107,9 @@ int runMaze(Maze& theMaze, int path[], int startCell, int endCell){
             //check if there is another reachable and unmarked cell;
             if (cells[i] != -1 && !theMaze.isMarked(cells[i]) && theMaze.canGo(endCell, cells[i]))
             {
-                rc = runMaze(theMaze, path, startCell, cells[i]);
-                if (rc != 0)
+                rc = runMaze(theMaze, path, startCell, cells[i]); 
+
+                if (rc != 0) // if not encountered dead end, save the path. 
                 {
                     path[rc] = endCell;
                     return rc + 1;
