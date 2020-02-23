@@ -1,4 +1,8 @@
 #include "disjointset.h"
+#ifdef _DEBUG //Visual Studio debug macros
+#include <iostream>
+#endif // DEBUG
+
 
 DisjointSet::DisjointSet(int max)
 {
@@ -73,6 +77,7 @@ DisjointSet::~DisjointSet()//O(max)
 
 		}
 		delete[] this->nodes;
+		nodes = nullptr;
 	}
 }
 
@@ -89,19 +94,23 @@ DisjointSet::DisjointSet(const DisjointSet& other) //deep copy, O(max)
 				other.nodes[i]->first,
 				other.nodes[i]->last,
 				other.nodes[i]->referedCount
-				);
+			);
 		}
 	}
 }
 
 DisjointSet& DisjointSet::operator=(const DisjointSet& other) //deep copy same to copy constructor
 {
-	for (size_t i = 0; i < max; i++)
-	{
-		if (nodes[i])
+	if (this->nodes) {
+		for (size_t i = 0; i < max; i++)
 		{
-			delete nodes[i];
+			if (nodes[i] != nullptr)
+			{
+				delete nodes[i];
+			}
 		}
+		delete[] nodes;
+		nodes = nullptr;
 	}
 	this->max = other.max;
 	*this = DisjointSet(other);
@@ -117,6 +126,20 @@ DisjointSet::DisjointSet(DisjointSet&& other) //move O(1)
 
 DisjointSet& DisjointSet::operator=(DisjointSet&& other) //move O(1)
 {
+#ifdef _DEBUG
+	std::cout << "Move assignment operator called" << std::endl;
+#endif // DEBUG
+	if (this->nodes) {
+		for (size_t i = 0; i < max; i++)
+		{
+			if (nodes[i] != nullptr)
+			{
+				delete nodes[i];
+			}
+		}
+		delete[] nodes;
+		nodes = nullptr;
+	}
 	this->nodes = other.nodes;
 	this->max = other.max;
 	other.nodes = nullptr;
