@@ -1,7 +1,7 @@
 #include "disjointset.h"
 #ifdef _DEBUG //Visual Studio debug macros
 #include <iostream>
-#endif // DEBUG
+#endif // DEBUG 
 
 
 DisjointSet::DisjointSet(int max)
@@ -13,7 +13,6 @@ DisjointSet::DisjointSet(int max)
 		nodes[i] = nullptr;
 	}
 	this->max = max;
-	//lists = new LinkedList<LinkedList<int>*>;
 }
 
 bool DisjointSet::makeSet(int object) //O(1)
