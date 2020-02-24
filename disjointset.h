@@ -44,6 +44,6 @@ private:
 			referedCount = r;
 		}
 	};
-	Node** nodes;
+	Node** nodes = nullptr;
 	int max = 0;
 };
