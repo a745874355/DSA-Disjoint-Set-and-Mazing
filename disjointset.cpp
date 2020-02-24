@@ -29,6 +29,7 @@ bool DisjointSet::makeSet(int object) //O(1)
 }
 
 int DisjointSet::findSet(int object) const { //O(1)	
+	if (object < 0 || object >=max) return -1;
 	if (nodes[object]) // if (nodes[object]), the obj already in the list;
 	{
 		return nodes[object]->first->value;
